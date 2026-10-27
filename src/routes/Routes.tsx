@@ -11,6 +11,14 @@ import NotFound from "../pages/NotFound";
 import { Suspense } from "react";
 import Loading from "../componantes/Loading";
 import ErrorBoundary from "../componantes/ErrorBoundary";
+import AdminPRotected from "../componantes/AdminPRotected";
+import Dashboard from "../pages/Admin/Dashboard";
+import AdminCategory from "../pages/Admin/AdminCategory";
+import Adminwrapper from "../layout/Adminwrapper";
+import AdminCars from "../pages/Admin/AdminCars";
+import AdminBooking from "../pages/Admin/AdminBooking";
+import Cart from "../pages/Cars";
+import MyBookings from "../pages/Customer/MyBookings";
 
 const Routes = createBrowserRouter([
   {
@@ -65,8 +73,73 @@ const Routes = createBrowserRouter([
         ),
         errorElement: <ErrorBoundary />,
       },
+       {
+        path: "cart",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Cart />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "my-bookings",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <MyBookings />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
     ],
   },
+   {
+    path:"/admin",
+    element: <AdminPRotected/>,
+    children:[
+       {
+    path: "",
+    element: <Adminwrapper />,
+    children: [
+      {
+        path: "dashboard",
+        element: <Dashboard />,
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "category",
+        // element:<Category/>
+        element: (
+          <Suspense fallback={<Loading />}>
+            <AdminCategory />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "cars",
+       
+        element: (
+          <Suspense fallback={<Loading />}>
+            <AdminCars />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "bookings",
+      
+        element: (
+          <Suspense fallback={<Loading />}>
+            <AdminBooking />
+          </Suspense>
+        ),
+        errorElement: <ErrorBoundary />,
+      },
+    ],
+  },
+    ]
+   },
   {
     path: "*",
     element: <NotFound />,
